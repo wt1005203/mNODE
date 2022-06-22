@@ -2,6 +2,7 @@
 begin
     ## install necessary packages if they are not installed yet according to "Project.toml" and "Manifest.toml"
     using Pkg
+    Pkg.activate(".")
     Pkg.instantiate()
 
     ## load necessary packages
