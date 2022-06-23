@@ -149,8 +149,6 @@ compound_names_ordered = compound_names[p]
 y_plot_valid = y_plot[compound_names_ordered.==compound_names_ordered]
 compound_names_ordered_valid = compound_names_ordered[compound_names_ordered.==compound_names_ordered]
 
-writedlm("./best_fitted_metabolites_corr.csv",corr_test, ',')
-
 numOfTopMetabolites = 100
 println("="^50)
 println("The mean Spearman C.C. for all metabolites")
@@ -193,8 +191,8 @@ for i_species_perturbed = 1:Nb
     susceptibility_all[i_species_perturbed,:] = susceptibility.data
 end
 
-writedlm("./susceptibility_all.csv", susceptibility_all, ',')
-println("Susceptibilies saved to susceptibility_all.csv")
+writedlm("./results/susceptibility_all.csv", susceptibility_all, ',')
+println("Susceptibilies are saved to susceptibility_all.")
 
 
 

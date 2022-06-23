@@ -6,32 +6,37 @@ This repository contains scripts needed to run `mNODE` (Metabolomic profile pred
 The version of Python we used is 3.7.3 and the version of Julia we used is 1.6.2.
 
 ## Dependencies
-Necessary Python packages can be found in "requirements.txt". Installing those packages can be achieved by pip:
+Necessary Python packages can be found in `requirements.txt`. Installing those packages can be achieved by pip:
 ```
 pip install -r requirements.txt
 ```
-Julia uses the toml to manage the version of packages. Necessary Julia packages are specified in "Project.toml" and "Manifest.toml". To ensure all dependent packages will be correctly installed, we include
+Julia uses the toml to manage the version of packages. Necessary Julia packages are specified in `Project.toml` and `Manifest.toml`. To ensure all dependent packages will be correctly installed, we include
 ```
 using Pkg
 Pkg.instantiate()
 ```
-which automatically installs all packages specified in "Project.toml" and "Manifest.toml".
+which automatically installs all packages specified in `Project.toml` and `Manifest.toml`.
+
+## Workflow
+1. **Data processing**: we apply the CLR (Centred Log-Ratio) transformation to both metagenomic and metabolomic profiles and this is carried out by the Python script `data_processing.py`. After the CLR transformation, the script prepares the training and test datasets. It loads the raw count data from the folder `./data` and saves the processed data to the folder `./processed_data`.
+2. **mNODE**: the Julia script `mNODE.jl` loads the processed data in `./processed_data` and starts the prediction procedure of mNODE. It first utilized the 5-fold cross-validation on the training set to determine the best hyperparameters (L2 regularization weight parameter and hidden layer size). Then it predicts CLR-transformed metabolomic profiles for the test set. The final predicted CLR-transformed metabolomic profiles are saved as `./results/predicted_metabolomic_profiles.csv` and the Spearman Correlation Coefficients for all metabolites are saved as `./results/metabolites_corr.csv`.
+3. **Inferring microbe-metabolite interactions**: the Julia script `inferring_interactions.jl` loads the processed data in `processed_data` and directly used the best hyperparameters to train mNODE. The susceptibility method measures responses of metabolite concentrations to the perturbation in species' relative abundances of the trained mNODE on the training set. All values of susceptibilities are saved as `./results/susceptibility_all.csv`.
 
 ## Example
-We showed a demonstration of mNODE on the dataset PRISM + NLIBD. First, we need to process both metagenomic profiles and metabolomic profiles using the CLR (Centred Log-Ratio) transformation. The data is processed by the Python script titled "data_processing.py":
+We showed a demonstration of mNODE on the dataset PRISM + NLIBD. First, we need to process both metagenomic profiles and metabolomic profiles using the CLR (Centred Log-Ratio) transformation. The data is processed by the Python script titled `data_processing.py`:
 ```
-<PATH_TO_PYTHON> data_processing.py
+<PATH_TO_PYTHON> ./data_processing.py
 ```
-<PATH_TO_PYTHON> is the path to the executable Python file located under the installed folder. After the data processing, we can run mNODE (including hyperparameter calibration and the following predictions) contained in "mNODE.jl" via the command:
+<PATH_TO_PYTHON> is the path to the executable Python file located under the installed folder. After the data processing, we can run mNODE (including hyperparameter calibration and the following predictions) contained in `mNODE.jl` via the command:
 ```
 <PATH_TO_JULIA> ./mNODE.jl
 ```
-<PATH_TO_JULIA> is the path to the executable Julia file located under the installed folder. Finally, to infer microbe-metabolite interactions via the susceptibility method, we can run "inferring_interactions.jl":
+<PATH_TO_JULIA> is the path to the executable Julia file located under the installed folder. Finally, to infer microbe-metabolite interactions via the susceptibility method, we can run `inferring_interactions.jl`:
  ```
 <PATH_TO_JULIA> ./inferring_interactions.jl
 ```
 
-For example, on the Macbook air M1 2020 we tested, the command for running "mNODE.jl" is 
+For example, on the Macbook air M1 2020 we tested, the command for running `mNODE.jl` is 
 ```
 /Applications/Julia-1.6.app/Contents/Resources/julia/bin/julia ./mNODE.jl
 ```

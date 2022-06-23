@@ -274,7 +274,8 @@ compound_names_ordered = compound_names[p]
 y_plot_valid = y_plot[compound_names_ordered.==compound_names_ordered]
 compound_names_ordered_valid = compound_names_ordered[compound_names_ordered.==compound_names_ordered]
 
-writedlm("./best_fitted_metabolites_corr.csv",corr_test, ',')
+writedlm("./results/predicted_metabolomic_profiles.csv",y_test_pred'.data, ',')
+writedlm("./results/metabolites_corr.csv",corr_test, ',')
 
 numOfTopMetabolites = 100
 println("="^50)
