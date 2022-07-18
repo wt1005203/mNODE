@@ -1,5 +1,5 @@
 # mNODE (Metabolomic profile predictor using Neural Ordinary Differential Equations)
-This repository contains scripts needed to run `mNODE` (Metabolomic profile predictor using Neural Ordinary Differential Equations) that is capable of predicting metabolomic profiles based on microbial compositions and other additional information such as dietary information. 
+This repository contains scripts needed to run `mNODE` (Metabolomic profile predictor using Neural Ordinary Differential Equations) that is capable of predicting metabolomic profiles based on microbial compositions and other additional information such as dietary information. A preprint that describes the method in detail can be found [here](https://www.biorxiv.org/content/10.1101/2022.06.23.497381v1). 
 ![schematic](schematic.png)
 
 ## Versions
@@ -16,6 +16,8 @@ using Pkg
 Pkg.instantiate()
 ```
 which automatically installs all packages specified in `Project.toml` and `Manifest.toml`.
+
+The entire installation process takes less than half an hour for the setting we used (Macbook Air M1 2020, 8GB RAM, 512GB SSD).
 
 ## Workflow
 1. **Data processing**: we apply the CLR (Centred Log-Ratio) transformation to both metagenomic and metabolomic profiles and this is carried out by the Python script `data_processing.py`. After the CLR transformation, the script prepares the training and test datasets. It loads the raw count data from the folder `./data` and saves the processed data to the folder `./processed_data`.
@@ -40,3 +42,9 @@ For example, on the Macbook air M1 2020 we tested, the command for running `mNOD
 ```
 /Applications/Julia-1.6.app/Contents/Resources/julia/bin/julia ./mNODE.jl
 ```
+
+The entire running process takes less than 20 minutes for the setting we used (Macbook Air M1 2020, 8GB RAM, 512GB SSD).
+
+## License
+
+This project is covered under the **MIT License**.
