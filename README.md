@@ -27,7 +27,7 @@ The entire installation process takes less than half an hour for the setting we 
 ## Example
 We showed a demonstration of mNODE on the dataset PRISM + NLIBD. First, we need to process both microbiome profiles and metabolomic profiles using the CLR (Centred Log-Ratio) transformation. The data is processed by the Python script titled `data_processing.py`:
 ```
-<PATH_TO_PYTHON> ./data_processing.py PATH_metab_df, PATH_micro_df, PATH_external_meta_df, PATH_external_micro_df, PATH_metabolome_annotated
+<PATH_TO_PYTHON> ./data_processing.py PATH_metab_df PATH_micro_df PATH_external_meta_df PATH_external_micro_df PATH_metabolome_annotated
 ```
 <PATH_TO_PYTHON> is the path to the executable Python file located under the installed folder. PATH_metab_df, PATH_micro_df, PATH_external_meta_df, PATH_external_micro_df, and PATH_metabolome_annotated are paths to the training metabolomic profiles, training microbiome profiles, test metabolomic profiles, test microbiome profiles, and annotated metabolites in metabolomic profiles respectively. For the IBD dataset we demonstrate here, the command for processing the dataset is 
 ```
