@@ -2,15 +2,21 @@
 import pandas as pd
 import numpy as np
 from skbio.stats.composition import clr
+import sys
+PATH_metab_df = sys.argv[1] #### path to metabolomic profiles used in training
+PATH_micro_df = sys.argv[2] #### path to microbiome profiles used in training
+PATH_external_meta_df = sys.argv[3] #### path to metabolomic profiles used in testing/prediction
+PATH_external_micro_df = sys.argv[4] #### path to metabolome profiles used in testing/prediction
+PATH_metabolome_annotated = sys.argv[5] #### path to the annotation of metabolites in metabolomic profiles
 
 ## Load microbiome compositions and metabolomic profiles from the PRISM and NLIBD dataset
-metab_df = pd.read_csv("./data/IBD/metabolome_PRISM.csv", index_col=0)
-micro_df = pd.read_csv("./data/IBD/microbiome_PRISM.csv", index_col=0)
+metab_df = pd.read_csv(PATH_metab_df, index_col=0)
+micro_df = pd.read_csv(PATH_micro_df, index_col=0)
 
-external_metab_df = pd.read_csv("./data/IBD/metabolome_external.csv", index_col=0)
-external_micro_df = pd.read_csv("./data/IBD/microbiome_external.csv", index_col=0)
+external_metab_df = pd.read_csv(PATH_external_meta_df, index_col=0)
+external_micro_df = pd.read_csv(PATH_external_micro_df, index_col=0)
 
-metabolome_meta_df = pd.read_csv("./data/IBD/metabolome_annotation.csv", index_col=0)
+metabolome_annotated = pd.read_csv(PATH_metabolome_annotated, index_col=0)
 
 samples = np.intersect1d(metab_df.columns.values, micro_df.columns.values)
 num_samples = len(samples)
@@ -72,10 +78,9 @@ np.savetxt("./processed_data/y_test.csv", y_test, delimiter=',')
 
 
 ## Save compound names
-metabolome_annotated = pd.read_csv("./data/IBD/metabolome_annotation.csv", index_col=0)
-metabolome_PRISM = pd.read_csv("./data/IBD/metabolome_PRISM.csv", index_col=0)
+metabolome_raw = pd.read_csv(PATH_metab_df, index_col=0)
 np.savetxt("./processed_data/compound_names.csv", 
-           metabolome_annotated.reindex(metabolome_PRISM.index)['Compound Name'].values, delimiter='\t', fmt = '%s')
+           metabolome_annotated.reindex(metabolome_raw.index)['Compound Name'].values, delimiter='\t', fmt = '%s')
 
 
 
